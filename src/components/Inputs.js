@@ -1,15 +1,19 @@
 import React from 'react';
+import {sendMove} from '../actions'
 
-class Inputs extends React.Component {
-    render() {
-        return (
-            <div>
-                <button>-1</button>
-                <button>0</button>
-                <button>1</button>
-            </div>
-        );
-    }
-}
+const Inputs = ({dispatch}) => (
+    <div>
+        <button onClick={dispatch(-1)}>-1</button>
+        <button onClick={dispatch(0)}>0</button>
+        <button onClick={dispatch(1)}>1</button>
+    </div>
+);
 
-export default Inputs;
+const mapDispatchToProps = (dispatch, getState) => ({
+    dispatch: (input) => dispatch(sendMove(input, getState().playerInfo.id))
+});
+
+export default connect(
+    () => {},
+    mapDispatchToProps
+)(Inputs);

@@ -1,4 +1,4 @@
-import POPULATE_PLAYER_INFO from '../constants/ActionTypes';
+import {POPULATE_PLAYER_INFO} from '../constants/ActionTypes';
 
 const playerInfo = (state = {}, action) => {
     switch (action.type) {

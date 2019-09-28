@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 
 import './styles.less';
 import App from './components/App';
 import reducer from './reducers';
+import sockerMiddleware from './middleware/socket';
 
-const store  = createStore(reducer);
+const middleware = applyMiddleware(sockerMiddleware);
+const store  = createStore(reducer, middleware);
 
 ReactDOM.render(
   <Provider store={store}>
