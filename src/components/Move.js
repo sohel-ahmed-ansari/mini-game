@@ -1,13 +1,14 @@
 import React from 'react';
 
-const Move = ({playerName, value}) => (
+const Move = ({playerName, input, equation, output}) => (
     <div>
         <div>{playerName}</div>
         <div>
-            <div>{input}</div>
-            <div>{equation}</div>
-            <div>{output}</div>
+            <div>Input: {input}</div>
+            <div>Equation: {equation}</div>
+            <div>Output: {output}</div>
         </div>
+        <br/>
     </div>
 );
 

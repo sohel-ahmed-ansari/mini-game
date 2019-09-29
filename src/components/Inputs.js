@@ -1,19 +1,25 @@
 import React from 'react';
+import {connect} from 'react-redux';
+
 import {sendMove} from '../actions'
 
-const Inputs = ({dispatch}) => (
-    <div>
-        <button onClick={dispatch(-1)}>-1</button>
-        <button onClick={dispatch(0)}>0</button>
-        <button onClick={dispatch(1)}>1</button>
-    </div>
-);
+const Inputs = ({disabled, sendMove}) => {
+    return (<div>
+        <button disabled={disabled} onClick={() => sendMove(-1)}>-1</button>
+        <button disabled={disabled} onClick={() => sendMove(0)}>0</button>
+        <button disabled={disabled} onClick={() => sendMove(1)}>1</button>
+    </div>);
+};
 
-const mapDispatchToProps = (dispatch, getState) => ({
-    dispatch: (input) => dispatch(sendMove(input, getState().playerInfo.id))
+const mapStateToProps = (state) => ({
+    disabled: !state.inputsEnabled
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    sendMove: (input) => dispatch(sendMove(input))
 });
 
 export default connect(
-    () => {},
+    mapStateToProps,
     mapDispatchToProps
 )(Inputs);

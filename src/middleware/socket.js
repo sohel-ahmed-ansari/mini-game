@@ -1,40 +1,89 @@
-import {JOIN_GAME, DISCONNECT, ADD_MOVE, SEND_MOVE, PLAYER_JOINED} from '../constants/ActionTypes';
+import io from 'socket.io-client';
+
+import * as actionTypes from '../constants/ActionTypes';
+import {
+    addMove,
+    populatePlayerInfo,
+    disconnect,
+    enableInputs,
+    updateGameStatus,
+    setStartingNumber
+} from '../actions';
+import {
+    GAME_WAITING, 
+    GAME_STARTED, 
+    GAME_ROOM_FULL,
+    GAME_LOST,
+    GAME_WON
+} from '../constants/GameStatus';
 
 const socketMiddleware = () => {
     let socket = null;
     return store => next => action => {
         const dispatch = store.dispatch;
         switch (action.type) {
-            case JOIN_GAME:
-                if (socket !== null) {
+            case actionTypes.JOIN_GAME:
+                if (socket) {
                     socket.close();
                 }
-                socket = new WebSocket('ws://localhost:8989');
-                socket.onopen = () => {
-                    socket.send(JSON.stringify({
-                        type: JOIN_GAME,
-                        name: action.playerName
+                socket = new io();
+                
+                socket.on('ENTERED_GAME', (data) => {
+                    dispatch(populatePlayerInfo(data));
+                    dispatch(updateGameStatus({
+                        name: GAME_WAITING
                     }));
-                };
-                socket.onmessage = (event) => {
-                    const data = JSON.parse(event.data);
-                    switch (data.type) {
-                        case ADD_MOVE:
-                            dispatch();
-                            break;
-                        case PLAYER_JOINED:
-                            dispatch();
-                            break;
-                        default:
-                            break;
-                    }
+                });
+                socket.on('ROOM_FULL', (data) => {
+                    dispatch(updateGameStatus({
+                        name: GAME_ROOM_FULL
+                    }));
+                });
+                socket.on('GAME_STARTED', (data) => {
+                    dispatch(updateGameStatus({
+                        name: GAME_STARTED
+                    }));
+                    dispatch(setStartingNumber(data.startingNumber));
+                    const playerID = store.getState().playerInfo.id;
+                    dispatch(enableInputs(playerID === data.startingPlayer));
+                });
+                socket.on('ADD_MOVE', (data) => {
+                    dispatch(addMove(data));
+                    const playerID = store.getState().playerInfo.id;
+                    dispatch(enableInputs(playerID !== data.playerID));
+                });
+                socket.on('GAME_LOST', (data) => {
+                    dispatch(updateGameStatus({
+                        name: GAME_LOST,
+                        result: {...data}
+                    }));
+                });
+                socket.on('GAME_WON', (data) => {
+                    dispatch(updateGameStatus({
+                        name: GAME_WON,
+                        result: {...data}
+                    }));
+                });
+                socket.on('OPPONENT_DISCONNECTED', (data) => {
+                    dispatch(updateGameStatus({
+                        name: GAME_WAITING,
+                    }));
+                });
+                //request server to join game
+                socket.emit(actionTypes.JOIN_GAME, {playerName: action.playerName});
+                break;
+            case actionTypes.SEND_MOVE:
+                if (socket) {
+                    const {id: playerID, name: playerName} = store.getState().playerInfo;
+                    socket.emit(actionTypes.ADD_MOVE, {
+                        input: action.input,
+                        playerID: playerID,
+                        playerName: playerName
+                    });
                 }
                 break;
-            case SEND_MOVE:
-                socket.send(JSON.stringify({ type: ADD_MOVE, ...action}));
-                break;
-            case DISCONNECT:
-                if (socket !== null) {
+            case actionTypes.DISCONNECT:
+                if (socket) {
                     socket.close();
                 }
                 socket = null;

@@ -1,19 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Move from './Move';
 
-class Moves extends React.Component {
-    render() {
-        return (
-            <div>
-                {moves.map(move => (
-                    <Move
-                        key={move.id}
-                        {...move}
-                    />
-                ))}
-            </div>
-        );
-    }
-}
+const Moves = ({ moves, startingNumber }) => (
+    <div>
+        <div>{startingNumber}</div>
+        {moves.map(move => (
+            <Move
+                key={move.id}
+                {...move}
+            />
+        ))}
+    </div>
+);
 
-export default Moves;
+const mapStateToProps = state => ({
+    moves: state.moves,
+    startingNumber: state.startingNumber
+});
+
+export default connect(mapStateToProps, {})(Moves);

@@ -1,11 +1,12 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-class PlayerInfo extends React.Component {
-    render() {
-        return (
-            <div>Sohel</div>
-        );
-    }
-}
+const PlayerInfo = ({playerInfo}) => (
+    <div>{playerInfo.name}</div>
+);
 
-export default PlayerInfo;
+const mapStateToProps = state => ({
+    playerInfo: state.playerInfo
+});
+
+export default connect(mapStateToProps, {})(PlayerInfo);
