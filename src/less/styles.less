@@ -1,0 +1,162 @@
+html, body, #root, .app {
+    height: 100%;
+}
+
+body {
+    font-family: Arial;
+    margin: 0px;
+}
+
+.app {
+    margin: auto;
+    max-width: 500px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f7fa;
+    box-shadow: 0px 0px 5px #ccc;
+    position: relative;
+}
+
+.player-info {
+    background-color: #4faadd;
+    color: white;
+    height: 45px;
+    box-shadow: 0px 3px 4px #777;
+    display: flex;
+    padding: 10px 15px;
+    .info {
+        padding-left: 10px;
+        .name {
+            font-size: 20px;
+            padding-bottom: 3px;
+        }
+        .sub-title {
+            font-size: 12px;
+        }
+    }
+}
+
+.photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4089bb;
+    img {
+        width: 35px;
+        margin: -5px auto auto auto;
+        display: block;
+    }
+}
+
+.game-number {
+    background-color: #4faadd;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    padding: 18px;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%; 
+}
+
+.game-status {
+    background-color: ~'rgb(79, 170, 221, 0.7)';
+    flex-grow: 1;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .enter-name {
+        margin-bottom: 10px;
+    }
+    input {
+        width: 300px;
+        height: 30px;
+        border-radius: 25px;
+        border: none !important;
+        padding: 10px;
+        font-size: inherit;
+        font-weight: bold;
+        text-align: center;
+        margin: 0 auto 15px auto;
+        display: block;
+        color: #444;
+        &:focus {
+            outline: none;
+        }
+    }
+    button {
+        margin: 0 auto 0 auto;
+        font-size: inherit;
+        padding: 5px 30px;
+        border-radius: 25px;
+        background-color: #27a548;
+        border: none;
+        color: white;
+    }
+    .please-wait {
+        margin: 30px auto;
+    }
+}
+
+.gameplay {
+    padding-bottom: 80px;
+}
+
+.moves {
+    display: flex;
+    flex-direction: column;
+    .starting-number {
+        margin: 10px auto 20px auto;
+    }
+    .move {
+        display: flex;
+        div {
+            margin-bottom: 10px;
+        }
+        .move-info {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            .equation {
+                padding: 10px 15px;
+                background-color: #fff;
+                border-radius: 3px;
+                box-shadow: 0px 0px 8px #ddd;
+            }
+        }
+        &.opponent-move {
+            flex-direction: row-reverse;
+            .move-info {
+                align-items: flex-end;
+                margin-right: 10px;
+            }
+            .photo, .game-number {
+                background-color: #bd3e3e;
+            } 
+        }
+    }
+    padding: 15px;
+}
+
+.inputs {
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 75px;
+    .game-number {
+        margin-right: 10px;
+    }
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}

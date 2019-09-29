@@ -1,15 +1,21 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-const Move = ({playerName, input, equation, output}) => (
-    <div>
-        <div>{playerName}</div>
-        <div>
-            <div>Input: {input}</div>
-            <div>Equation: {equation}</div>
-            <div>Output: {output}</div>
+import PlayerPhoto from './PlayerPhoto';
+
+const Move = ({ input, equation, output, playerID, currentPlayerID }) => (
+    <div className={`move ${playerID !== currentPlayerID ? 'opponent-move' : ''}`}>
+        <PlayerPhoto />
+        <div className="move-info">
+            <div className="game-number">{input}</div>
+            <div className="equation">{equation}</div>
+            <div className="equation">{output}</div>
         </div>
-        <br/>
     </div>
 );
 
-export default Move;
+const mapStateToProps = state => ({
+    currentPlayerID: state.playerInfo.id,
+});
+
+export default connect(mapStateToProps, {})(Move);

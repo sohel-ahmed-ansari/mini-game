@@ -28,7 +28,6 @@ io.on('connection', (socket) => {
     socket.on('JOIN_GAME', (data) => {
         if (players.length >= MAX_PLAYERS) {
             socket.emit('ROOM_FULL');
-            console.log('Room is full');
             return;
         }
         const playerInfo = {
@@ -46,7 +45,7 @@ io.on('connection', (socket) => {
         console.log('Connected players: ', players.map(player => player.name));
         
         if (players.length === MAX_PLAYERS) {
-            startingNumber = Math.round((Math.random() * (MAX_STARTING_NUMBER - 1)) + 1);
+            startingNumber = 1000;//Math.round((Math.random() * (MAX_STARTING_NUMBER - DIVIDE_BY)) + DIVIDE_BY);
             io.emit('GAME_STARTED', {
                 startingNumber,
                 startingPlayer: players[0].id

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 
-import './styles.less';
+import './less/styles.less';
 import App from './components/App';
 import reducer from './reducers';
 import sockerMiddleware from './middleware/socket';

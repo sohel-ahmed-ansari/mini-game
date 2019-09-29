@@ -5,7 +5,8 @@ import {
     GAME_ENTER_NAME,
     GAME_WON,
     GAME_LOST,
-    GAME_WAITING
+    GAME_WAITING,
+    GAME_ROOM_FULL
 } from '../constants/GameStatus';
 import { joinGame } from '../actions';
 
@@ -15,29 +16,35 @@ class GameStatus extends React.Component {
         switch (this.props.name) {
             case GAME_ENTER_NAME:
                 return (
-                    <div>
-                        <div>Enter your name:</div>
+                    <div className="game-status">
+                        <div className="enter-name">Enter your name</div>
                         <input maxLength="15" ref={(node) => {
                             input = node;
                         }}></input>
-                        <button onClick={() => this.props.joinGame(input.value)}>Play</button>
+                        <button onClick={() => this.props.joinGame(input.value)}>Start</button>
                     </div>
                 );
             case GAME_WAITING:
                 return (
-                    <div>Please for someone to join.</div>
+                    <div className="game-status">
+                        <div className="please-wait">Waiting for one more player to join</div>
+                    </div>
                 );
             case GAME_WON:
                 return (
-                    <div>YOU WIN!!!</div>
+                    <div className="game-status">YOU WIN!!!</div>
                 );
             case GAME_LOST:
                 return (
-                    <div>OOPS!! YOU LOST</div>
+                    <div className="game-status">OOPS!! YOU LOST</div>
+                );
+            case GAME_ROOM_FULL:
+                return (
+                    <div className="game-status">Room is full. Please try again later</div>
                 );
             default:
                 return (
-                    <div>Error: Incorrect game status</div>
+                    <div className="game-status">Some error occured</div>
                 );
         }
     }
@@ -49,10 +56,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    joinGame: (playerName) => {
-        console.log(playerName);
-        return dispatch(joinGame(playerName));
-    }
+    joinGame: (playerName) => dispatch(joinGame(playerName))
 });
 
 export default connect(
