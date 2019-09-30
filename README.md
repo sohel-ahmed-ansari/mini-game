@@ -2,7 +2,7 @@
 
 ## How to play
 
-Run
+Install and build
 
 `nvm install`
 
