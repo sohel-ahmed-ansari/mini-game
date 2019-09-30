@@ -1,0 +1,25 @@
+# Assignment
+
+## How to play
+
+Run
+
+`nvm install`
+
+`npm install`
+
+`npm run build`
+
+Start the server
+
+`npm start`
+
+Now open http://localhost:3000 in two different browsers or tabs. Enter your name and start playing.
+
+Maximum two players can join a game. Game ends if any one player disconnects.
+
+
+## Run in dev mode
+
+If you want re-build as you make changes then run `npm run dev`, this run the build, start the server and will keep watching files for any changes.
+
