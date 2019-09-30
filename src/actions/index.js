@@ -6,7 +6,8 @@ import {
     SET_STARTING_NUMBER,
     DISCONNECT,
     ADD_MOVE,
-    SEND_MOVE
+    SEND_MOVE,
+    START_NEW_GAME
 } from '../constants/ActionTypes';
 
 let moveID = 0;
@@ -49,4 +50,8 @@ export const addMove = (data) => ({
 export const sendMove = (input) => ({
     type: SEND_MOVE,
     input
+});
+
+export const startNewGame = () => ({
+    type: START_NEW_GAME
 });

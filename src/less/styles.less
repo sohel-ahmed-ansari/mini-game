@@ -71,6 +71,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     .enter-name {
         margin-bottom: 10px;
     }
@@ -104,6 +105,36 @@ body {
     }
 }
 
+.cup, .sad-face {
+    width: 160px;
+    margin-bottom: 70px;
+}
+
+.balloons {
+    position: absolute;
+    animation: balloons-animation 2s ease-in;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.result {
+    font-size: 45px;
+    margin-bottom: 25px;
+}
+
+.result-btn {
+    width:100%;
+    max-width: 245px;
+    height: 20px;
+    padding: 20px;
+    background-color: #fff;
+    color: #4089bb;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 30px;
+}
+
 .gameplay {
     position: relative;
     height: calc(100% - 65px);
@@ -113,7 +144,7 @@ body {
     padding: 15px 15px 80px 15px;
     height: 100%;
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
     .starting-number {
         margin: 10px 0 20px 0;
         .game-number {
@@ -166,4 +197,15 @@ body {
 .disabled {
     opacity: 0.5;
     pointer-events: none;
+}
+
+@keyframes balloons-animation {
+    from {
+        top: 40%;
+        opacity: 1;
+    }
+    to {
+        top: 5%;
+        opacity: 0;
+    }
 }

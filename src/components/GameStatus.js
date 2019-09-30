@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import imgCup from '../images/cup.png';
+import imgBalloons from '../images/balloons.png';
+import imgSadFace from '../images/sad.gif';
 import {
     GAME_ENTER_NAME,
     GAME_WON,
@@ -8,7 +11,7 @@ import {
     GAME_WAITING,
     GAME_ROOM_FULL
 } from '../constants/GameStatus';
-import { joinGame } from '../actions';
+import { joinGame, startNewGame } from '../actions';
 
 class GameStatus extends React.Component {
     render() {
@@ -36,11 +39,26 @@ class GameStatus extends React.Component {
                 );
             case GAME_WON:
                 return (
-                    <div className="game-status">YOU WIN!!!</div>
+                    <div className="game-status">
+                        <img src={imgCup} className="cup"></img>
+                        <img src={imgBalloons} className="balloons"></img>
+                        <div className="result">You won</div>
+                        <div
+                            className="result-btn"
+                            onClick={() => this.props.startNewGame()}
+                        >New game</div>
+                    </div>
                 );
             case GAME_LOST:
                 return (
-                    <div className="game-status">OOPS!! YOU LOST</div>
+                    <div className="game-status">
+                        <img src={imgSadFace} className="sad-face"></img>
+                        <div className="result">You lose</div>
+                        <div
+                            className="result-btn"
+                            onClick={() => this.props.startNewGame()}
+                        >New game</div>
+                    </div>
                 );
             case GAME_ROOM_FULL:
                 return (
@@ -60,7 +78,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    joinGame: (playerName) => dispatch(joinGame(playerName))
+    joinGame: (playerName) => dispatch(joinGame(playerName)),
+    startNewGame: (playerName) => dispatch(startNewGame()),
 });
 
 export default connect(

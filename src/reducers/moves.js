@@ -1,5 +1,5 @@
 import {ADD_MOVE, UPDATE_GAME_STATUS} from '../constants/ActionTypes';
-import {GAME_STARTED, GAME_WAITING} from '../constants/GameStatus';
+import {GAME_STARTED, GAME_WAITING, GAME_ENTER_NAME} from '../constants/GameStatus';
 
 const moves = (state = [], action) => {
     switch (action.type) {
@@ -13,7 +13,7 @@ const moves = (state = [], action) => {
                 output: action.output
             }]);
         case UPDATE_GAME_STATUS:
-            if ([GAME_STARTED, GAME_WAITING].includes(action.name)) {
+            if ([GAME_ENTER_NAME, GAME_STARTED, GAME_WAITING].includes(action.name)) {
                 return [];
             }
             return state;
