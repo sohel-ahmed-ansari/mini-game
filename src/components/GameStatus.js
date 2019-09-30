@@ -18,9 +18,13 @@ class GameStatus extends React.Component {
                 return (
                     <div className="game-status">
                         <div className="enter-name">Enter your name</div>
-                        <input maxLength="15" ref={(node) => {
+                        <input autoFocus maxLength="15" ref={(node) => {
                             input = node;
-                        }}></input>
+                        }} onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                this.props.joinGame(input.value);
+                            }
+                        }} ></input>
                         <button onClick={() => this.props.joinGame(input.value)}>Start</button>
                     </div>
                 );

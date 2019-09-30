@@ -4,13 +4,13 @@ const htmlPlugin = new HtmlWebPackPlugin({
     template: "./src/index.html",
     filename: "./index.html"
 });
-module.exports = {
+
+const config = {
     entry: "./src/index.js",
     output: {
         path: path.join(__dirname, 'dist'),
         filename: "[name].js"
     },
-    devtool: 'eval-source-map',
     plugins: [htmlPlugin],
     module: {
         rules: [
@@ -48,4 +48,11 @@ module.exports = {
             }
         ]
     }
+};
+
+module.exports = (env, argv) => {
+    if (argv.mode === 'development') {
+        config.devtool = 'eval-source-map';
+    }
+    return config;
 };

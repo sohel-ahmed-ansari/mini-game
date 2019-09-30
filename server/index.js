@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
         }
         const playerInfo = {
             name: data.playerName,
-            id: uuid(), 
+            id: uuid(),
             socketID: socket.id
         };
         socket.emit('ENTERED_GAME', {
@@ -40,17 +40,17 @@ io.on('connection', (socket) => {
             id: playerInfo.id
         });
         players.push(playerInfo);
-        
+
         console.log(playerInfo.name + ' has connected to the game');
         console.log('Connected players: ', players.map(player => player.name));
-        
+
         if (players.length === MAX_PLAYERS) {
-            startingNumber = 1000;//Math.round((Math.random() * (MAX_STARTING_NUMBER - DIVIDE_BY)) + DIVIDE_BY);
+            startingNumber = Math.round((Math.random() * (MAX_STARTING_NUMBER - DIVIDE_BY)) + DIVIDE_BY);
             io.emit('GAME_STARTED', {
                 startingNumber,
                 startingPlayer: players[0].id
             });
-            
+
             console.log('game has started between: ', players.map(player => player.name));
         }
     });
