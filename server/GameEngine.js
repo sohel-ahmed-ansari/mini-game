@@ -94,9 +94,13 @@ class GameEngine {
     }
 
     onDisconnect(socket) {
-        this.players = this.players.filter((player) => {
-            return player.socketID !== socket.id;
+        const index = this.players.findIndex((player) => {
+            return player.socketID === socket.id;
         });
+        if (index === -1) {
+            return;
+        }
+        this.players.splice(index, 1);
         this.lastMoveData = null;
         this.io.emit('OPPONENT_DISCONNECTED');
         console.log('Disconnected. Remaining players: ', this.players.map(player => player.name));

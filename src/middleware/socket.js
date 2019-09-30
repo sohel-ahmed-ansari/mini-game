@@ -20,13 +20,19 @@ import {
 
 const socketMiddleware = () => {
     let socket = null;
+
+    const disconnect = () => {
+        if (socket) {
+            socket.close();
+        }
+        socket = null;
+    }
+
     return store => next => action => {
         const dispatch = store.dispatch;
         switch (action.type) {
             case actionTypes.JOIN_GAME:
-                if (socket) {
-                    socket.close();
-                }
+                disconnect();
                 socket = new io();
 
                 socket.on('ENTERED_GAME', (data) => {
@@ -39,6 +45,7 @@ const socketMiddleware = () => {
                     dispatch(updateGameStatus({
                         name: GAME_ROOM_FULL
                     }));
+                    disconnect();
                 });
                 socket.on('GAME_STARTED', (data) => {
                     dispatch(updateGameStatus({
@@ -58,12 +65,14 @@ const socketMiddleware = () => {
                         name: GAME_LOST,
                         result: {...data}
                     }));
+                    disconnect();
                 });
                 socket.on('GAME_WON', (data) => {
                     dispatch(updateGameStatus({
                         name: GAME_WON,
                         result: {...data}
                     }));
+                    disconnect();
                 });
                 socket.on('OPPONENT_DISCONNECTED', (data) => {
                     const currentStatus = store.getState().gameStatus.name;
@@ -75,7 +84,7 @@ const socketMiddleware = () => {
                 });
                 socket.on('disconnect', (data) => {
                     const currentStatus = store.getState().gameStatus.name;
-                    if (![GAME_LOST, GAME_WON].includes(currentStatus)) {
+                    if (![GAME_LOST, GAME_WON, GAME_ROOM_FULL].includes(currentStatus)) {
                         dispatch(updateGameStatus({
                             name: GAME_ENTER_NAME,
                         }));
@@ -97,20 +106,14 @@ const socketMiddleware = () => {
                 break;
 
             case actionTypes.START_NEW_GAME:
-                    if (socket) {
-                        socket.close();
-                    }
-                    socket = null;
+                    disconnect();
                     dispatch(updateGameStatus({
                         name: GAME_ENTER_NAME
                     }));
                     break;
 
             case actionTypes.DISCONNECT:
-                if (socket) {
-                    socket.close();
-                }
-                socket = null;
+                disconnect();
                 break;
 
             default:
