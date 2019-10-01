@@ -21,7 +21,7 @@ Maximum two players can join a game. Game ends if any one player disconnects.
 
 ## Run in dev mode
 
-If you want re-build as you make changes then run `npm run dev`, this run the build, start the server and will keep watching files for any changes.
+If you want re-build as you make changes then run `npm run dev`, this will run the build, start the server and will keep watching files for any changes.
 
 ## What can be improved
 
